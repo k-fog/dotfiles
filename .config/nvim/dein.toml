@@ -1,0 +1,48 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+hook_add='''
+  let g:solarized_termcolors=256
+  syntax enable
+  set background=dark
+  colorscheme solarized
+'''
+
+[[plugins]]
+repo = 'ntpeters/vim-better-whitespace'
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+
+[[plugins]]
+repo = 'Shougo/defx.nvim'
+hook_add='''
+  source ~/.config/nvim/plugins/defx.rc.vim
+'''
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+
+[[plugins]]
+repo = 'kristijanhusak/defx-icons'
+
+[[plugins]]
+repo = 'kristijanhusak/defx-git'
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+build = './install.sh nightly'
+hook_add = '''
+  source ~/.config/nvim/plugins/coc.rc.vim
+'''
+
+[[plugins]]
+repo = 'JuliaEditorSupport/julia-vim'
