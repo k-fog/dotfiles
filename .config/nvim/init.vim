@@ -57,7 +57,7 @@ endif
 
 " End dein Scripts-------------------------
 
-command! RemoveM :%s///g
+command! RemoveM :%s///g
 
 " Tab setting-----------------------------
 " Anywhere SID.
@@ -111,3 +111,6 @@ augroup fileTypeIndent
   autocmd!
   autocmd BufNewFile,BufRead *.jl setlocal tabstop=4 shiftwidth=4
 augroup END
+
+" その他キーマップ設定
+nnoremap <ESC><ESC> :nohlsearch<CR><Esc>
