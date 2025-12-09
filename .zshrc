@@ -1,24 +1,8 @@
-setopt no_beep
+# Set up the prompt
 
-# alias
-alias vim=nvim
-alias rm=trash-put
-alias clip=clip.exe
-alias ls='ls --color=always'
-alias open=xdg-open
-export LESS='-R'
+source ~/.zsh/git-prompt.sh
+fpath=(~/.zsh $fpath)
 
-# history
-export HISTFILE=${HOME}/.zsh_history
-export HISTSIZE=1000
-export SAVEHIST=100000
-setopt hist_ignore_dups
-
-# prompt
-autoload -Uz colors && colors
-
-[ -f ~/.git-completion.sh ] && source ~/.git-completion.sh
-[ -f ~/.git-prompt.sh ] && source ~/.git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWSTASHSTATE=true
@@ -26,15 +10,24 @@ GIT_PS1_SHOWUPSTREAM=auto
 GIT_PS1_SHOWCONFLICTSTATE=yes
 GIT_PS1_HIDE_IF_PWD_IGNORED=yes
 
-setopt prompt_subst; PROMPT='%F{green}%n@%m %F{blue}%~%F{white}$(__git_ps1 " (%s)")%f %# '
+setopt prompt_subst; PROMPT='%F{white}%n@%m %F{blue}%~%F{white}$(__git_ps1 " (%s)")%f %# '
 
-# keybind
-bindkey "^[[H" beginning-of-line
-bindkey "^[[F" end-of-line
-bindkey "^[[3~" delete-char
+# history
+# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
+HISTSIZE=1000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt histignorealldups sharehistory
+
+autoload -Uz colors && colors
+
+# Use modern completion system
+zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+autoload -Uz compinit && compinit
+
+# Alias definitions.
+if [ -f ~/.zsh_aliases ]; then
+    . ~/.zsh_aliases
+fi
 
 eval "$(sheldon source)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
