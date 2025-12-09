@@ -57,7 +57,6 @@ require('jetpack.packer').add {
             highlight = { enable = true, },
         }
     end},
-    {'navarasu/onedark.nvim', config = function() require('onedark').load() end},
     {'neovim/nvim-lspconfig', config = function()
         vim.lsp.enable('clangd')
     end},
