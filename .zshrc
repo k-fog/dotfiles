@@ -10,7 +10,7 @@ GIT_PS1_SHOWUPSTREAM=auto
 GIT_PS1_SHOWCONFLICTSTATE=yes
 GIT_PS1_HIDE_IF_PWD_IGNORED=yes
 
-setopt prompt_subst; PROMPT='%F{white}%n@%m %F{blue}%~%F{white}$(__git_ps1 " (%s)")%f %# '
+setopt prompt_subst; PROMPT='%F{green}%n@%m %F{blue}%~%F{white}$(__git_ps1 " (%s)")%f %# '
 
 # history
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
