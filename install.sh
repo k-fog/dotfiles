@@ -11,3 +11,6 @@ ln -s "$CUR/init.lua" "$CONFIG_DIR/nvim/init.lua"
 mkdir -p "$CONFIG_DIR/tmux"
 ln -s "$CUR/tmux.conf" "$CONFIG_DIR/tmux/tmux.conf"
 
+# zsh
+ln -s "$CUR/.zsh_aliases" "$HOME/.zsh_aliases"
+ln -s "$CUR/.zshrc" "$HOME/.zshrc"

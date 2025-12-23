@@ -21,6 +21,7 @@ vim.cmd('packadd vim-jetpack')
 require('jetpack.packer').add {
     {'tani/vim-jetpack'}, -- bootstrap
     {'lewis6991/gitsigns.nvim'},
+    {'sindrets/diffview.nvim'},
     {'ibhagwan/fzf-lua', requires = 'nvim-tree/nvim-web-devicons', config = function()
         local fzf = require('fzf-lua')
         fzf.setup()
