@@ -143,3 +143,12 @@ cmp.setup.cmdline(':', {
 vim.lsp.config('*', {
     capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })
+
+-- ocaml indent config
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "ocaml",
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+  end,
+})
