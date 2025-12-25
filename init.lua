@@ -60,6 +60,7 @@ require('jetpack.packer').add {
     end},
     {'neovim/nvim-lspconfig', config = function()
         vim.lsp.enable('clangd')
+        vim.lsp.enable('ocamllsp')
     end},
     {'hrsh7th/cmp-nvim-lsp'},
     {'hrsh7th/cmp-nvim-lsp-signature-help'},
