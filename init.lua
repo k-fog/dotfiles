@@ -69,6 +69,17 @@ require('jetpack.packer').add {
     {'hrsh7th/cmp-cmdline'},
     {'hrsh7th/nvim-cmp'},
     {'sindrets/diffview.nvim'},
+    {'stevearc/conform.nvim', config = function()
+        require("conform").setup({
+            formatters_by_ft = {
+                ocaml = { "ocamlformat" },
+            },
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_format = "never",
+            },
+        })
+    end},
 }
 
 
@@ -146,9 +157,9 @@ vim.lsp.config('*', {
 
 -- ocaml indent config
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "ocaml",
-  callback = function()
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.tabstop = 2
-  end,
+    pattern = "ocaml",
+    callback = function()
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.tabstop = 2
+    end,
 })
