@@ -31,3 +31,4 @@ if [ -f ~/.zsh_aliases ]; then
 fi
 
 eval "$(sheldon source)"
+eval "$(opam env)"
