@@ -15,6 +15,8 @@ vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true })
 vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true })
 vim.keymap.set('v', 'j', 'gj', { noremap = true, silent = true })
 vim.keymap.set('v', 'k', 'gk', { noremap = true, silent = true })
+vim.keymap.set("n", "p", "p`]", { noremap = true })
+vim.keymap.set("n", "P", "P`]", { noremap = true })
 vim.keymap.set("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", { silent = true })
 
 vim.cmd('packadd vim-jetpack')
