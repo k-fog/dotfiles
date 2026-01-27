@@ -1,4 +1,5 @@
 vim.o.number = true
+vim.o.relativenumber = true
 
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
@@ -11,13 +12,20 @@ vim.o.termguicolors = true
 vim.o.cursorline = true
 vim.o.ttimeoutlen = 10
 
+vim.o.swapfile = false
+vim.g.mapleader = ' '
+
 vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true })
 vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true })
 vim.keymap.set('v', 'j', 'gj', { noremap = true, silent = true })
 vim.keymap.set('v', 'k', 'gk', { noremap = true, silent = true })
-vim.keymap.set("n", "p", "p`]", { noremap = true })
-vim.keymap.set("n", "P", "P`]", { noremap = true })
-vim.keymap.set("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", { silent = true })
+vim.keymap.set('n', 'p', 'p`]', { noremap = true })
+vim.keymap.set('n', 'P', 'P`]', { noremap = true })
+vim.keymap.set('n', '<Esc><Esc>', ':<C-u>set nohlsearch<Return>', { silent = true })
+
+vim.keymap.set('n', '<leader>w', ':w<Return>')
+vim.keymap.set('n', '<leader>q', ':q<Return>')
+vim.keymap.set('n', '<leader>wq', ':wq<Return>')
 
 vim.cmd('packadd vim-jetpack')
 require('jetpack.packer').add {
