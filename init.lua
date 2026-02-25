@@ -43,8 +43,8 @@ require('jetpack.packer').add {
                 return git_root_cache[cwd]
             end
 
-            local output = vim.fn.systemlist("git rev-parse --is-inside-work-tree")
-            local is_git = output[1] == "true"
+            local output = vim.fn.systemlist('git rev-parse --is-inside-work-tree')
+            local is_git = output[1] == 'true'
             git_root_cache[cwd] = is_git
             return is_git
         end
@@ -57,16 +57,25 @@ require('jetpack.packer').add {
             end
         end, { noremap = true, silent = true })
     end},
-    {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-        require('nvim-treesitter.configs').setup {
-            ensure_installed = { "c", "lua", "python", "markdown", },
-            -- Install parsers synchronously (only applied to `ensure_installed`)
-            sync_install = false,
-            -- Automatically install missing parsers when entering buffer
-            -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-            auto_install = true,
-            highlight = { enable = true, },
-        }
+    {'nvim-treesitter/nvim-treesitter', branch = 'main', run = ':TSUpdate', config = function()
+        require('nvim-treesitter').setup()
+        require('nvim-treesitter').install({
+            'bash',
+            'c',
+            'cpp',
+            'lua',
+            'markdown',
+            'ocaml',
+            'python',
+        })
+        vim.api.nvim_create_autocmd("FileType", {
+            group = vim.api.nvim_create_augroup("EnableTreesitterHighlighting", { clear = true }),
+            desc = "Try to enable tree-sitter syntax highlighting",
+            pattern = "*", -- run on *all* filetypes
+            callback = function()
+                pcall(function() vim.treesitter.start() end)
+            end,
+        })
     end},
     {'neovim/nvim-lspconfig', config = function()
         vim.lsp.enable('clangd')
@@ -80,13 +89,13 @@ require('jetpack.packer').add {
     {'hrsh7th/nvim-cmp'},
     {'sindrets/diffview.nvim'},
     {'stevearc/conform.nvim', config = function()
-        require("conform").setup({
+        require('conform').setup({
             formatters_by_ft = {
-                ocaml = { "ocamlformat" },
+                ocaml = { 'ocamlformat' },
             },
             format_on_save = {
                 timeout_ms = 500,
-                lsp_format = "never",
+                lsp_format = 'never',
             },
         })
     end},
@@ -166,8 +175,8 @@ vim.lsp.config('*', {
 })
 
 -- ocaml indent config
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "ocaml",
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'ocaml',
     callback = function()
         vim.opt_local.shiftwidth = 2
         vim.opt_local.tabstop = 2
