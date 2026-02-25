@@ -32,3 +32,12 @@ fi
 
 eval "$(sheldon source)"
 eval "$(opam env)"
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+path=('/home/kiri/.juliaup/bin' $path)
+export PATH
+
+# <<< juliaup initialize <<<
