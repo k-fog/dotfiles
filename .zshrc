@@ -1,43 +1,21 @@
-# Set up the prompt
-
-source ~/.zsh/git-prompt.sh
-fpath=(~/.zsh $fpath)
-
-GIT_PS1_SHOWDIRTYSTATE=true
-GIT_PS1_SHOWUNTRACKEDFILES=true
-GIT_PS1_SHOWSTASHSTATE=true
-GIT_PS1_SHOWUPSTREAM=auto
-GIT_PS1_SHOWCONFLICTSTATE=yes
-GIT_PS1_HIDE_IF_PWD_IGNORED=yes
-
-setopt prompt_subst; PROMPT='%F{green}%n@%m %F{blue}%~%F{white}$(__git_ps1 " (%s)")%f %# '
-
-# history
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
+HISTFILE="$HOME/.zsh_history"
 HISTSIZE=1000
 SAVEHIST=10000
-HISTFILE=~/.zsh_history
-setopt histignorealldups sharehistory
+setopt HIST_IGNORE_ALL_DUPS SHARE_HISTORY PROMPT_SUBST
 
-autoload -Uz colors && colors
+autoload -Uz compinit vcs_info
+compinit -d "$HOME/.zcompdump"
 
-# Use modern completion system
-zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
-autoload -Uz compinit && compinit
+precmd() { vcs_info }
 
-# Alias definitions.
-if [ -f ~/.zsh_aliases ]; then
-    . ~/.zsh_aliases
-fi
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr '+'
+zstyle ':vcs_info:git:*' unstagedstr '*'
+zstyle ':vcs_info:git:*' formats ' (%b%c%u)'
+zstyle ':vcs_info:git:*' actionformats ' (%b|%a%c%u)'
 
+PROMPT='%F{green}%n@%m %F{blue}%~%f${vcs_info_msg_0_} %# '
+
+[ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 eval "$(sheldon source)"
-eval "$(opam env)"
-
-# >>> juliaup initialize >>>
-
-# !! Contents within this block are managed by juliaup !!
-
-path=('/home/kiri/.juliaup/bin' $path)
-export PATH
-
-# <<< juliaup initialize <<<
