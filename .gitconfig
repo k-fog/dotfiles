@@ -1,10 +1,11 @@
 [user]
 	email = 59814110+k-fog@users.noreply.github.com
 	name = k-fog
-
 [alias]
-    br = branch
+    s  = status
+    ss = status -s
+    b  = branch
+    c  = commit
     co = checkout
-    st = status
 [core]
 	editor = vim

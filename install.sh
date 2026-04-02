@@ -14,3 +14,6 @@ ln -s "$CUR/tmux.conf" "$CONFIG_DIR/tmux/tmux.conf"
 # zsh
 ln -s "$CUR/.zsh_aliases" "$HOME/.zsh_aliases"
 ln -s "$CUR/.zshrc" "$HOME/.zshrc"
+
+# git
+ln -s "$CUR/.gitconfig" "$HOME/.gitconfig"
