@@ -62,6 +62,14 @@ vim.lsp.enable('clangd')
 vim.lsp.enable('ocamllsp')
 vim.lsp.enable('rust_analyzer')
 
+-- diagnostic
+vim.o.updatetime = 250
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { source = 'if_many' })
+  end,
+})
+
 -- completion
 require('blink.cmp').setup({
   completion = {
