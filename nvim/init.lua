@@ -39,17 +39,10 @@ require('mini.icons').setup()
 -- fzf-lua
 local fzf = require('fzf-lua')
 fzf.setup()
-local git_cache = {}
 vim.keymap.set("n", "<C-p>", function()
-  local cwd = vim.loop.cwd()
-  if git_cache[cwd] == nil then
-    vim.fn.system("git rev-parse --is-inside-work-tree 2>/dev/null")
-    git_cache[cwd] = (vim.v.shell_error == 0)
-  end
-  if git_cache[cwd] then fzf.git_files() else fzf.files() end
+  vim.fn.system("git rev-parse --is-inside-work-tree 2>/dev/null")
+  if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
 end)
-vim.keymap.set('n', '<C-\\>', fzf.buffers)
-vim.keymap.set('n', '<leader>f', fzf.live_grep)
 
 -- nvim-treesitter
 require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python'})
