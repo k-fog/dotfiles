@@ -54,12 +54,17 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.lsp.enable('clangd')
 vim.lsp.enable('ocamllsp')
 vim.lsp.enable('rust_analyzer')
+vim.lsp.config('verible', { cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications'}})
+vim.lsp.enable('verible')
 
 -- diagnostic
 vim.o.updatetime = 250
+vim.diagnostic.config({
+  float = { focusable = false, source = "if_many" },
+})
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
-    vim.diagnostic.open_float(nil, { source = 'if_many' })
+    vim.diagnostic.open_float(nil, { scope = "cursor" })
   end,
 })
 
