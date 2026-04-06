@@ -56,6 +56,8 @@ vim.lsp.enable('ocamllsp')
 vim.lsp.enable('rust_analyzer')
 vim.lsp.config('verible', { cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications'}})
 vim.lsp.enable('verible')
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'gr', vim.lsp.buf.rename)
 
 -- diagnostic
 vim.o.updatetime = 250
