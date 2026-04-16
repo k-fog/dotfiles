@@ -19,3 +19,4 @@ PROMPT='%F{green}%n@%m %F{blue}%~%f${vcs_info_msg_0_} %# '
 
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 eval "$(sheldon source)"
+source <(fzf --zsh)
