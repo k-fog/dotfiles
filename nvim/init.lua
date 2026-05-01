@@ -24,13 +24,14 @@ vim.keymap.set('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 
 -- packages
 vim.pack.add({
-  'https://github.com/lewis6991/gitsigns.nvim',
-  'https://github.com/nvim-mini/mini.icons',
-  'https://github.com/ibhagwan/fzf-lua',
-  'https://github.com/nvim-treesitter/nvim-treesitter',
-  'https://github.com/neovim/nvim-lspconfig',
+  { src = 'https://github.com/lewis6991/gitsigns.nvim' },
+  { src = 'https://github.com/nvim-mini/mini.icons' },
+  { src = 'https://github.com/ibhagwan/fzf-lua' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
+  { src = 'https://github.com/neovim/nvim-lspconfig' },
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('*') },
-  'https://github.com/stevearc/conform.nvim',
+  { src = 'https://github.com/stevearc/conform.nvim' },
+  { src = 'https://github.com/A7Lavinraj/fyler.nvim', version = 'stable' },
 })
 
 -- mini.icons
@@ -39,11 +40,11 @@ require('mini.icons').setup()
 -- fzf-lua
 local fzf = require('fzf-lua')
 fzf.setup()
-vim.keymap.set("n", "<C-p>", function()
-  vim.fn.system("git rev-parse --is-inside-work-tree 2>/dev/null")
+vim.keymap.set('n', '<C-p>', function()
+  vim.fn.system('git rev-parse --is-inside-work-tree 2>/dev/null')
   if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
 end)
-vim.keymap.set("n", "<C-\\>", fzf.live_grep)
+vim.keymap.set('n', '<C-\\>', fzf.live_grep)
 
 -- nvim-treesitter
 require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python'})
@@ -71,8 +72,8 @@ require('blink.cmp').setup({
     menu = {
       draw = {
         columns = {
-          { "label", "label_description", gap = 1 },
-          { "kind_icon", gap = 1, "kind" }
+          { 'label', 'label_description', gap = 1 },
+          { 'kind_icon', gap = 1, 'kind' }
         },
       },
     },
@@ -91,11 +92,16 @@ require('conform').setup({
 })
 
 -- indent
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "lua", "ocaml" },
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'lua', 'ocaml' },
   callback = function()
     vim.opt_local.shiftwidth = 2
     vim.opt_local.tabstop = 2
     vim.opt_local.expandtab = true
   end,
 })
+
+-- filer
+local fyler = require('fyler')
+fyler.setup()
+vim.keymap.set('n', '-', fyler.open)
