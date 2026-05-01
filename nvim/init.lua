@@ -103,5 +103,11 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- filer
 local fyler = require('fyler')
-fyler.setup()
+fyler.setup({
+  views = {
+    finder = {
+      default_explorer = true,
+    },
+  },
+})
 vim.keymap.set('n', '-', fyler.open)
