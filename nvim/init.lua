@@ -63,15 +63,7 @@ vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gr', vim.lsp.buf.rename)
 
 -- diagnostic
-vim.o.updatetime = 250
-vim.diagnostic.config({
-  float = { focusable = false, source = "if_many" },
-})
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    vim.diagnostic.open_float(nil, { scope = "cursor" })
-  end,
-})
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 
 -- completion
 require('blink.cmp').setup({
