@@ -45,7 +45,13 @@ vim.keymap.set('n', '<C-p>', function()
   vim.fn.system('git rev-parse --is-inside-work-tree 2>/dev/null')
   if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
 end)
-vim.keymap.set('n', '<C-\\>', fzf.live_grep)
+vim.keymap.set('n', '<leader>f', function()
+  vim.fn.system('git rev-parse --is-inside-work-tree 2>/dev/null')
+  if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
+end)
+vim.keymap.set('n', '<leader>F', fzf.files)
+vim.keymap.set('n', '<leader>g', fzf.live_grep)
+vim.keymap.set('n', '<leader>b', fzf.buffers)
 
 -- nvim-treesitter
 require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python'})
