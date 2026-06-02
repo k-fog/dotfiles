@@ -50,7 +50,7 @@ vim.keymap.set('n', '<leader>f', function()
   if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
 end)
 vim.keymap.set('n', '<leader>F', fzf.files)
-vim.keymap.set('n', '<leader>g', fzf.live_grep)
+vim.keymap.set('n', '<leader>l', fzf.live_grep)
 vim.keymap.set('n', '<leader>b', fzf.buffers)
 
 -- nvim-treesitter
