@@ -71,7 +71,14 @@ vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gr', vim.lsp.buf.rename)
 
 -- diagnostic
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.diagnostic.config({ virtual_lines = { current_line = true }})
+vim.keymap.set('n', '<leader>ye', function()
+  local d = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })[1]
+  if d then
+    vim.fn.setreg('+', d.message)
+    print('Diagnostic copied')
+  end
+end)
 
 -- completion
 require('blink.cmp').setup({
