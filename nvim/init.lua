@@ -15,6 +15,16 @@ vim.o.ttimeoutlen = 10
 vim.o.swapfile = false
 vim.g.mapleader = ' '
 
+vim.o.autoread = true
+vim.o.updatetime = 1000
+vim.api.nvim_create_autocmd({
+  "FocusGained",
+  "BufEnter",
+  "CursorHold",
+}, {
+  command = "checktime",
+})
+
 vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 vim.keymap.set('v', 'j', 'gj')
@@ -59,7 +69,35 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function() pcall(vim.treesitter.start) end,
 })
 
+-- completion
+require('blink.cmp').setup({
+  completion = {
+    accept = {
+      auto_brackets = {
+        enabled = false,
+      },
+    },
+    menu = {
+      draw = {
+        columns = {
+          { 'label', 'label_description', gap = 1 },
+          { 'kind_icon', gap = 1, 'kind' }
+        },
+      },
+    },
+    documentation = { auto_show = true, auto_show_delay_ms = 500 },
+  },
+  keymap = { preset = 'super-tab' },
+  signature = { enabled = true },
+})
+
 -- LSP
+local capabilities = require('blink.cmp').get_lsp_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = false
+vim.lsp.config('*', {
+  capabilities = capabilities,
+})
+
 vim.lsp.enable('clangd')
 vim.lsp.enable('ocamllsp')
 vim.lsp.enable('rust_analyzer')
@@ -79,23 +117,6 @@ vim.keymap.set('n', '<leader>ye', function()
     print('Diagnostic copied')
   end
 end)
-
--- completion
-require('blink.cmp').setup({
-  completion = {
-    menu = {
-      draw = {
-        columns = {
-          { 'label', 'label_description', gap = 1 },
-          { 'kind_icon', gap = 1, 'kind' }
-        },
-      },
-    },
-    documentation = { auto_show = true, auto_show_delay_ms = 500 },
-  },
-  keymap = { preset = 'super-tab' },
-  signature = { enabled = true },
-})
 
 -- formatter
 require('conform').setup({
