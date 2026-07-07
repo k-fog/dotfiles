@@ -1,0 +1,7 @@
+theme = Adwaita Dark
+working-directory = home
+
+font-family = Ubuntu Sans Mono
+font-size = 11
+
+keybind = f11=toggle_fullscreen

@@ -21,3 +21,7 @@ ln -sfn "$CUR/sheldon/plugins.toml" "$CONFIG_DIR/sheldon/plugins.toml"
 
 # git
 ln -sfn "$CUR/git/.gitconfig" "$HOME/.gitconfig"
+
+# ghostty
+mkdir -p "$CONFIG_DIR/ghostty"
+ln -sfn "$CUR/ghostty/config.ghostty" "$CONFIG_DIR/ghostty/config.ghostty"
