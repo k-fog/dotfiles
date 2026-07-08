@@ -44,6 +44,7 @@ vim.pack.add({
   { src = 'https://github.com/stevearc/conform.nvim' },
   { src = 'https://github.com/A7Lavinraj/fyler.nvim', version = 'stable' },
   { src = 'https://github.com/bullets-vim/bullets.vim' },
+  { src = 'https://github.com/3rd/image.nvim' },
 })
 
 -- mini.icons
@@ -151,3 +152,6 @@ vim.keymap.set('n', '-', fyler.open)
 -- bullets.vim
 -- keep '-' as the bullet marker even when indenting deeper
 vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
+
+-- image.nvim
+require("image").setup()
