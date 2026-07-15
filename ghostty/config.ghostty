@@ -1,5 +1,6 @@
 theme = Adwaita Dark
 working-directory = home
+mouse-hide-while-typing = true
 
 font-family = Ubuntu Sans Mono
 font-size = 11
