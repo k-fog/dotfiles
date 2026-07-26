@@ -1,5 +1,5 @@
 vim.o.number = true
-vim.opt.relativenumber = true
+vim.o.relativenumber = true
 
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
@@ -15,7 +15,6 @@ vim.o.ttimeoutlen = 10
 vim.o.swapfile = false
 vim.g.mapleader = ' '
 
-vim.o.autoread = true
 vim.o.updatetime = 1000
 vim.api.nvim_create_autocmd({
   "FocusGained",
@@ -37,6 +36,7 @@ vim.keymap.set('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 vim.pack.add({
   { src = 'https://github.com/lewis6991/gitsigns.nvim' },
   { src = 'https://github.com/nvim-mini/mini.icons' },
+  { src = 'https://github.com/nvim-mini/mini.pairs' },
   { src = 'https://github.com/ibhagwan/fzf-lua' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/neovim/nvim-lspconfig' },
@@ -50,17 +50,17 @@ vim.pack.add({
 -- mini.icons
 require('mini.icons').setup()
 
+-- mini.pairs
+require('mini.pairs').setup()
+
 -- fzf-lua
 local fzf = require('fzf-lua')
-fzf.setup()
-vim.keymap.set('n', '<C-p>', function()
+local function project_files()
   vim.fn.system('git rev-parse --is-inside-work-tree 2>/dev/null')
   if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
-end)
-vim.keymap.set('n', '<leader>f', function()
-  vim.fn.system('git rev-parse --is-inside-work-tree 2>/dev/null')
-  if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
-end)
+end
+vim.keymap.set('n', '<C-p>', project_files)
+vim.keymap.set('n', '<leader>f', project_files)
 vim.keymap.set('n', '<leader>F', fzf.files)
 vim.keymap.set('n', '<leader>l', fzf.live_grep)
 vim.keymap.set('n', '<leader>b', fzf.buffers)
@@ -74,11 +74,6 @@ vim.api.nvim_create_autocmd('FileType', {
 -- completion
 require('blink.cmp').setup({
   completion = {
-    accept = {
-      auto_brackets = {
-        enabled = false,
-      },
-    },
     menu = {
       draw = {
         columns = {
@@ -94,10 +89,9 @@ require('blink.cmp').setup({
 })
 
 -- LSP
-local capabilities = require('blink.cmp').get_lsp_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = false
+-- blink.cmp registers its own capabilities on '*', this only overrides one leaf
 vim.lsp.config('*', {
-  capabilities = capabilities,
+  capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
 })
 
 vim.lsp.enable('clangd')
@@ -107,8 +101,6 @@ vim.lsp.config('verible', {
   cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications', '--rules_config_search'}
 })
 vim.lsp.enable('verible')
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
-vim.keymap.set('n', 'gr', vim.lsp.buf.rename)
 
 -- diagnostic
 vim.diagnostic.config({ virtual_lines = { current_line = true }})
@@ -134,7 +126,6 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     vim.opt_local.shiftwidth = 2
     vim.opt_local.tabstop = 2
-    vim.opt_local.expandtab = true
   end,
 })
 
