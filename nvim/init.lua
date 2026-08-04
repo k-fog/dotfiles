@@ -8,28 +8,16 @@ vim.o.tabstop = 4
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
-vim.o.termguicolors = true
 vim.o.cursorline = true
 vim.o.ttimeoutlen = 10
 
 vim.o.swapfile = false
 vim.g.mapleader = ' '
 
-vim.o.updatetime = 1000
-vim.api.nvim_create_autocmd({
-  "FocusGained",
-  "BufEnter",
-  "CursorHold",
-}, {
-  command = "checktime",
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+  command = 'checktime',
 })
 
-vim.keymap.set('n', 'j', 'gj')
-vim.keymap.set('n', 'k', 'gk')
-vim.keymap.set('v', 'j', 'gj')
-vim.keymap.set('v', 'k', 'gk')
-vim.keymap.set('n', 'p', 'p`]')
-vim.keymap.set('n', 'P', 'P`]')
 vim.keymap.set('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 
 -- packages
@@ -116,9 +104,13 @@ end)
 require('conform').setup({
   formatters_by_ft = {
     ocaml = { 'ocamlformat' },
+    rust = { 'rustfmt' },
   },
   format_on_save = { timeout_ms = 500, lsp_format = 'never' },
 })
+vim.keymap.set({ 'n', 'x' }, '<leader>t', function()
+  require('conform').format({ async = true, lsp_format = 'never' })
+end)
 
 -- indent
 vim.api.nvim_create_autocmd('FileType', {
