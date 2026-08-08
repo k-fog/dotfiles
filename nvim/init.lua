@@ -89,6 +89,7 @@ vim.lsp.config('verible', {
   cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications', '--rules_config_search'}
 })
 vim.lsp.enable('verible')
+vim.lsp.enable('ts_ls')
 
 -- diagnostic
 vim.diagnostic.config({ virtual_lines = { current_line = true }})
