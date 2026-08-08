@@ -84,6 +84,13 @@ vim.lsp.config('*', {
 
 vim.lsp.enable('clangd')
 vim.lsp.enable('ocamllsp')
+vim.lsp.config('rust_analyzer', {
+  settings = {
+    ['rust-analyzer'] = {
+      check = { command = 'clippy' },
+    },
+  },
+})
 vim.lsp.enable('rust_analyzer')
 vim.lsp.config('verible', {
   cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications', '--rules_config_search'}
