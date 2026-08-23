@@ -19,6 +19,9 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
 })
 
 vim.keymap.set('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>d', function()
+  vim.api.nvim_put({ os.date('%Y-%m-%d') }, 'c', true, true)
+end)
 
 -- packages
 vim.pack.add({
