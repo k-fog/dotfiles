@@ -31,6 +31,8 @@ vim.pack.add({
   { src = 'https://github.com/ibhagwan/fzf-lua' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/neovim/nvim-lspconfig' },
+  { src = 'https://github.com/mason-org/mason.nvim' },
+  { src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('*') },
   { src = 'https://github.com/stevearc/conform.nvim' },
   { src = 'https://github.com/A7Lavinraj/fyler.nvim', version = 'stable' },
@@ -85,8 +87,6 @@ vim.lsp.config('*', {
   capabilities = { textDocument = { completion = { completionItem = { snippetSupport = false } } } },
 })
 
-vim.lsp.enable('clangd')
-vim.lsp.enable('ocamllsp')
 vim.lsp.config('rust_analyzer', {
   settings = {
     ['rust-analyzer'] = {
@@ -94,12 +94,17 @@ vim.lsp.config('rust_analyzer', {
     },
   },
 })
-vim.lsp.enable('rust_analyzer')
 vim.lsp.config('verible', {
   cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications', '--rules_config_search'}
 })
-vim.lsp.enable('verible')
-vim.lsp.enable('ts_ls')
+
+-- servers installed by mason are enabled automatically
+require('mason').setup()
+require('mason-lspconfig').setup({
+  ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls' },
+})
+-- ocamllsp must match the opam switch's compiler, so it stays in opam
+vim.lsp.enable('ocamllsp')
 
 -- diagnostic
 vim.diagnostic.config({ virtual_lines = { current_line = true }})
