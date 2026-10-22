@@ -38,6 +38,7 @@ vim.pack.add({
   { src = 'https://github.com/A7Lavinraj/fyler.nvim', version = 'stable' },
   { src = 'https://github.com/bullets-vim/bullets.vim' },
   { src = 'https://github.com/3rd/image.nvim' },
+  { src = 'https://github.com/chomosuke/typst-preview.nvim', version = vim.version.range('1') },
 })
 
 -- mini.icons
@@ -59,7 +60,7 @@ vim.keymap.set('n', '<leader>l', fzf.live_grep)
 vim.keymap.set('n', '<leader>b', fzf.buffers)
 
 -- nvim-treesitter
-require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python'})
+require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python', 'typst'})
 vim.api.nvim_create_autocmd('FileType', {
   callback = function() pcall(vim.treesitter.start) end,
 })
@@ -94,6 +95,10 @@ vim.lsp.config('rust_analyzer', {
     },
   },
 })
+-- typst.toml marks the project root so files can import from parent dirs (same markers as typst-preview)
+vim.lsp.config('tinymist', {
+  root_markers = { 'typst.toml', '.git' },
+})
 vim.lsp.config('verible', {
   cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications', '--rules_config_search'}
 })
@@ -101,7 +106,7 @@ vim.lsp.config('verible', {
 -- servers installed by mason are enabled automatically
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls' },
+  ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls', 'tinymist' },
 })
 -- ocamllsp must match the opam switch's compiler, so it stays in opam
 vim.lsp.enable('ocamllsp')
@@ -154,3 +159,9 @@ vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
 
 -- image.nvim
 require("image").setup()
+
+-- typst-preview.nvim
+-- use tinymist from mason; websocat is downloaded by the plugin
+require('typst-preview').setup({
+  dependencies_bin = { tinymist = 'tinymist' },
+})
