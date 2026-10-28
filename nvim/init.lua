@@ -107,7 +107,7 @@ vim.lsp.config('verible', {
 -- servers installed by mason are enabled automatically
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls', 'tinymist' },
+  ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls', 'tinymist', 'pyright' },
 })
 -- ocamllsp must match the opam switch's compiler, so it stays in opam
 vim.lsp.enable('ocamllsp')
