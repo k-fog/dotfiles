@@ -61,7 +61,7 @@ vim.keymap.set('n', '<leader>l', fzf.live_grep)
 vim.keymap.set('n', '<leader>b', fzf.buffers)
 
 -- nvim-treesitter
-require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python', 'typst'})
+require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python', 'typst', 'zig'})
 vim.api.nvim_create_autocmd('FileType', {
   callback = function() pcall(vim.treesitter.start) end,
 })
@@ -107,7 +107,7 @@ vim.lsp.config('verible', {
 -- servers installed by mason are enabled automatically
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls', 'tinymist', 'pyright' },
+  ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls', 'tinymist', 'pyright', 'zls' },
 })
 -- ocamllsp must match the opam switch's compiler, so it stays in opam
 vim.lsp.enable('ocamllsp')
