@@ -20,48 +20,31 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
 })
 
 vim.keymap.set('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>d', function()
-  vim.api.nvim_put({ os.date('%Y-%m-%d') }, 'c', true, true)
-end)
 
 -- packages
 vim.pack.add({
-  { src = 'https://github.com/lewis6991/gitsigns.nvim' },
   { src = 'https://github.com/nvim-mini/mini.icons' },
-  { src = 'https://github.com/nvim-mini/mini.pairs' },
   { src = 'https://github.com/ibhagwan/fzf-lua' },
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/neovim/nvim-lspconfig' },
   { src = 'https://github.com/mason-org/mason.nvim' },
   { src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('*') },
-  { src = 'https://github.com/stevearc/conform.nvim' },
-  { src = 'https://github.com/A7Lavinraj/fyler.nvim', version = 'stable' },
-  { src = 'https://github.com/bullets-vim/bullets.vim' },
-  { src = 'https://github.com/3rd/image.nvim' },
-  { src = 'https://github.com/chomosuke/typst-preview.nvim', version = vim.version.range('1') },
+  { src = 'https://github.com/stevearc/oil.nvim' },
+  { src = 'https://github.com/nvim-mini/mini.pairs' },
+  { src = 'https://github.com/lewis6991/gitsigns.nvim' },
 })
 
--- mini.icons
+-- icons (picked up by fzf-lua and oil)
 require('mini.icons').setup()
-
--- mini.pairs
-require('mini.pairs').setup()
 
 -- fzf-lua
 local fzf = require('fzf-lua')
-local function project_files()
-  vim.fn.system('git rev-parse --is-inside-work-tree 2>/dev/null')
-  if vim.v.shell_error == 0 then fzf.git_files() else fzf.files() end
-end
-vim.keymap.set('n', '<C-p>', project_files)
-vim.keymap.set('n', '<leader>f', project_files)
-vim.keymap.set('n', '<leader>F', fzf.files)
+vim.keymap.set('n', '<C-p>', fzf.files)
+vim.keymap.set('n', '<leader>f', fzf.files)
 vim.keymap.set('n', '<leader>l', fzf.live_grep)
 vim.keymap.set('n', '<leader>b', fzf.buffers)
 
--- nvim-treesitter
-require('nvim-treesitter').install({'bash', 'c', 'cpp', 'lua', 'markdown', 'ocaml', 'python', 'typst', 'zig'})
+-- treesitter (only for parsers bundled with nvim: c, lua, markdown, ...)
 vim.api.nvim_create_autocmd('FileType', {
   callback = function() pcall(vim.treesitter.start) end,
 })
@@ -69,14 +52,6 @@ vim.api.nvim_create_autocmd('FileType', {
 -- completion
 require('blink.cmp').setup({
   completion = {
-    menu = {
-      draw = {
-        columns = {
-          { 'label', 'label_description', gap = 1 },
-          { 'kind_icon', gap = 1, 'kind' }
-        },
-      },
-    },
     documentation = { auto_show = true, auto_show_delay_ms = 500 },
   },
   keymap = { preset = 'super-tab' },
@@ -96,20 +71,13 @@ vim.lsp.config('rust_analyzer', {
     },
   },
 })
--- typst.toml marks the project root so files can import from parent dirs (same markers as typst-preview)
-vim.lsp.config('tinymist', {
-  root_markers = { 'typst.toml', '.git' },
-})
-vim.lsp.config('verible', {
-  cmd = {'verible-verilog-ls', '--nopush_diagnostic_notifications', '--rules_config_search'}
-})
 
 -- servers installed by mason are enabled automatically
 require('mason').setup()
 require('mason-lspconfig').setup({
   ensure_installed = { 'clangd', 'rust_analyzer', 'verible', 'ts_ls', 'tinymist', 'pyright', 'zls' },
 })
--- ocamllsp must match the opam switch's compiler, so it stays in opam
+-- ocamllsp must match the opam switch's compiler, so it comes from opam, not mason
 vim.lsp.enable('ocamllsp')
 
 -- diagnostic
@@ -122,18 +90,6 @@ vim.keymap.set('n', '<leader>ye', function()
   end
 end)
 
--- formatter
-require('conform').setup({
-  formatters_by_ft = {
-    ocaml = { 'ocamlformat' },
-    rust = { 'rustfmt' },
-  },
-  format_on_save = { timeout_ms = 500, lsp_format = 'never' },
-})
-vim.keymap.set({ 'n', 'x' }, '<leader>t', function()
-  require('conform').format({ async = true, lsp_format = 'never' })
-end)
-
 -- indent
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'lua', 'ocaml' },
@@ -143,26 +99,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- auto pairs
+require('mini.pairs').setup()
+
+-- git signs
+require('gitsigns').setup()
+
 -- filer
-local fyler = require('fyler')
-fyler.setup({
-  views = {
-    finder = {
-      default_explorer = true,
-    },
-  },
-})
-vim.keymap.set('n', '-', fyler.open)
+require('oil').setup()
+vim.keymap.set('n', '-', '<Cmd>Oil<CR>')
 
--- bullets.vim
--- keep '-' as the bullet marker even when indenting deeper
-vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
-
--- image.nvim
-require("image").setup()
-
--- typst-preview.nvim
--- use tinymist from mason; websocat is downloaded by the plugin
-require('typst-preview').setup({
-  dependencies_bin = { tinymist = 'tinymist' },
-})
